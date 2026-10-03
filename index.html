@@ -190,6 +190,7 @@ footer{text-align:center;color:#737373;font-size:11px;padding:6px 18px 100px}
         <label class="opt"><input type="radio" name="avail" value="No"><div>NO</div></label>
       </div>
 
+      <div style="position:absolute;left:-9999px" aria-hidden="true"><label>Leave this empty<input type="text" id="hp" name="website" tabindex="-1" autocomplete="off"></label></div>
       <div class="err" id="e">Please complete every field above.</div>
       <button type="submit" id="b">ORDER NOW</button>
     </form>
@@ -214,6 +215,18 @@ footer{text-align:center;color:#737373;font-size:11px;padding:6px 18px 100px}
     <a class="btn" href="#order" data-go="order">ORDER NOW</a>
   </section>
 </div>
+
+<div class="view" id="v-thanks">
+  <section class="order" style="text-align:center;margin-top:34px">
+    <div style="font-size:46px">✅</div>
+    <h2 style="margin:10px 0 6px;font-size:36px">Thank you!</h2>
+    <p style="color:var(--mute);font-size:14px">Your order has been received. We'll call or message you shortly to confirm your delivery.</p>
+    <div id="sum" style="text-align:left;white-space:pre-line;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:18px;font-size:13px;color:var(--mute);line-height:1.8"></div>
+    <p class="note" style="margin-top:14px">Please keep your phone close and have your payment ready for when it arrives. No payment is needed now.</p>
+    <a class="btn" id="wa3" href="#" target="_blank" rel="noopener">CONFIRM ON WHATSAPP (OPTIONAL)</a>
+    <a class="btn ghost" href="#" data-go="product">BACK TO HOME</a>
+  </section>
+</div>
 </main>
 
 <footer>© SpyCam.NG. For lawful security use only. Follow your local privacy laws.</footer>
@@ -223,13 +236,13 @@ footer{text-align:center;color:#737373;font-size:11px;padding:6px 18px 100px}
 <script>
 /* ========= EDIT THIS ========= */
 var WHATSAPP  = "2349017062206";   // 09017062206 in international format
-var SHEET_URL = "";                // Google Apps Script web-app URL (see setup steps). Leave empty to skip saving.
+var SHEET_URL = "https://script.google.com/macros/s/AKfycbyRI0K2Szxx5Mv0b9X6sh4b9fRatug_yTpxOeHrD_EUSzxKBOav38lp4gekE1Tt1vFU6A/exec";                // Google Apps Script web-app URL (see setup steps). Leave empty to skip saving.
 /* ============================= */
 var base = "https://wa.me/" + WHATSAPP + "?text=";
 var hi = base + encodeURIComponent("Hi, I am interested in the SpyCam.");
 document.getElementById("wa").href = hi;
 
-var tabs=document.querySelectorAll(".tab"),views={product:document.getElementById("v-product"),order:document.getElementById("v-order"),faq:document.getElementById("v-faq")};
+var tabs=document.querySelectorAll(".tab"),views={product:document.getElementById("v-product"),order:document.getElementById("v-order"),faq:document.getElementById("v-faq"),thanks:document.getElementById("v-thanks")};
 function show(v){
   Object.keys(views).forEach(function(k){views[k].classList.toggle("on",k===v);});
   tabs.forEach(function(t){t.setAttribute("aria-selected",t.dataset.view===v?"true":"false");});
@@ -237,7 +250,7 @@ function show(v){
 }
 tabs.forEach(function(t){t.addEventListener("click",function(){show(t.dataset.view);});});
 document.querySelectorAll("[data-go]").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();show(a.dataset.go);});});
-var h=location.hash.replace("#","");if(views[h]){show(h);}
+var h=location.hash.replace("#","");if(views[h]&&h!=="thanks"){show(h);}
 
 function pick(name){var c=document.querySelector('input[name="'+name+'"]:checked');return c?c.value:"";}
 
@@ -246,6 +259,7 @@ document.getElementById("f").addEventListener("submit", function (ev) {
   var n = document.getElementById("n").value.trim(),
       p = document.getElementById("p").value.trim(),
       a = document.getElementById("a").value.trim(),
+      hp = document.getElementById("hp").value,
       pkg = pick("pkg"), when = pick("when"), avail = pick("avail"),
       err = document.getElementById("e"), btn = document.getElementById("b");
   if (!n || !p || !a || !pkg || !when || !avail) { err.style.display = "block"; return; }
@@ -254,12 +268,19 @@ document.getElementById("f").addEventListener("submit", function (ev) {
 
   var msg = "New SpyCam.NG order\nName: " + n + "\nPhone: " + p + "\nAddress: " + a +
             "\nPackage: " + pkg + "\nDeliver: " + when + "\nAvailable to pay on delivery: " + avail;
-  var go = function () { window.location.href = base + encodeURIComponent(msg); };
+  var toWA = function () { window.location.href = base + encodeURIComponent(msg); };
+  var done = function () {
+    document.getElementById("sum").textContent = "Name: " + n + "\nPhone: " + p + "\nAddress: " + a + "\nPackage: " + pkg + "\nDelivery: " + when;
+    document.getElementById("wa3").href = base + encodeURIComponent(msg);
+    document.getElementById("f").reset();
+    btn.disabled = false; btn.textContent = "ORDER NOW";
+    show("thanks");
+  };
 
-  if (SHEET_URL) {
-    var body = new URLSearchParams({ name: n, phone: p, address: a, package: pkg, delivery: when, available: avail });
-    fetch(SHEET_URL, { method: "POST", mode: "no-cors", body: body }).then(go, go);
-  } else { go(); }
+  if (hp) { done(); return; }           // spam bot filled the hidden field: pretend success, send nothing
+  if (!SHEET_URL) { toWA(); return; }   // sheet not connected yet: fall back to WhatsApp so no order is lost
+  var body = new URLSearchParams({ name: n, phone: p, address: a, package: pkg, delivery: when, available: avail, website: hp });
+  fetch(SHEET_URL, { method: "POST", mode: "no-cors", body: body }).then(done, toWA);
 });
 </script>
 </body>
