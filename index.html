@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SpyCam.NG | Free Delivery, Pay on Delivery</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--card:#111;--line:#2b2b2b;--text:#fff;--mute:#a3a3a3;color-scheme:dark;box-sizing:border-box}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{background:var(--bg);color:var(--text);font-family:Manrope,system-ui,sans-serif;line-height:1.55;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2{font-family:'Bebas Neue',Impact,sans-serif;font-weight:400;letter-spacing:.02em;line-height:1}
+.bar{background:#fff;color:#000;text-align:center;font-weight:800;font-size:12px;letter-spacing:.08em;padding:9px 12px;}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:#000}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs .tab{flex:1;width:auto;margin:0;background:#000;color:var(--mute);border-radius:0;border-bottom:2px solid transparent;padding:12px;font-size:13px;letter-spacing:.08em}
+.tabs .tab[aria-selected=true]{color:#fff;border-bottom-color:#fff}
+.view{display:none}
+.view.on{display:block}
+.wrap{max-width:520px;margin:0 auto;padding:0 18px}
+.hero{text-align:center;padding:34px 0 18px}
+.eyebrow{font-size:12px;letter-spacing:.3em;color:var(--mute);font-weight:800}
+.hero h1{font-size:46px;margin:12px 0}
+.hero h1 span{color:var(--mute)}
+.hero p{color:var(--mute);font-size:15px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.badges b{border:1px solid #fff;border-radius:99px;padding:6px 14px;font-size:12px;font-weight:800}
+.hero-ph{height:260px;margin-top:22px}
+.order{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:18px 0 30px}
+.order h2{font-size:30px}
+.order small{display:block;color:var(--mute);margin:4px 0 6px;font-size:13px}
+label.l,.q{display:block;font-size:12px;font-weight:800;color:#fff;margin:18px 0 8px;letter-spacing:.03em}
+.q em{font-style:normal;color:var(--mute);font-weight:600}
+label.l span{color:var(--mute);font-weight:600}
+input[type=text],input[type=tel]{width:100%;background:#000;border:1px solid var(--line);color:#fff;border-radius:10px;padding:13px;font:inherit;font-size:16px}
+input:focus{outline:2px solid #fff;border-color:transparent}
+.opts{display:grid;gap:8px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer;margin:0}
+.opt div{border:1px solid var(--line);background:#000;border-radius:10px;padding:12px 14px;font-size:14px;font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.opt div i{font-style:normal;font-size:11px;font-weight:800;color:#000;background:#fff;border-radius:99px;padding:2px 8px;white-space:nowrap}
+.opt.two div,.opts.two .opt div{justify-content:center}
+.opt input:checked+div{border-color:#fff;background:#fff;color:#000}
+.opt input:checked+div i{background:#000;color:#fff}
+.opt input:focus-visible+div{outline:2px solid #fff;outline-offset:2px}
+.btn,button{display:block;width:100%;text-align:center;text-decoration:none;background:#fff;color:#000;border:0;border-radius:99px;padding:15px;font:800 16px Manrope,sans-serif;letter-spacing:.04em;cursor:pointer;margin-top:20px}
+button:disabled{opacity:.6}
+.note{font-size:12px;color:var(--mute);text-align:center;margin-top:10px}
+.err{display:none;color:#ff6b6b;font-size:12px;margin-top:12px}
+.ph{background:var(--card);border:1px dashed #444;border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--mute);font-size:12px;padding:12px;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pics .ph{aspect-ratio:1/1}
+.bul{list-style:none;padding:0;margin:20px 0 32px;display:grid;gap:10px}
+.bul li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:#e5e5e5}
+.bul li:before{content:"✓";flex:none;width:22px;height:22px;border-radius:50%;background:#fff;color:#000;font-weight:800;font-size:13px;display:grid;place-items:center;margin-top:1px}
+h2.t{font-size:30px;margin-bottom:12px}
+.uses{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px}
+.uses div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:12px;color:var(--mute)}
+.uses b{display:block;color:#fff;font-size:14px;margin:2px 0}
+.steps{list-style:none;padding:0;margin-bottom:34px;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--mute)}
+.steps li:before{content:counter(s);flex:none;width:30px;height:30px;border:1px solid #fff;border-radius:50%;display:grid;place-items:center;color:#fff;font:400 18px 'Bebas Neue',Impact,sans-serif}
+.steps b{display:block;color:#fff;font-size:14px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+summary{list-style:none;cursor:pointer;padding:15px 16px;font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";font-size:20px;line-height:1;color:var(--mute)}
+details[open] summary:after{content:"–"}
+details p{padding:0 16px 16px;font-size:14px;color:var(--mute)}
+.faq{margin-bottom:34px}
+.contact{border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center;margin-bottom:30px}
+.contact p{color:var(--mute);font-size:13px}
+.contact .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn.ghost{background:transparent;color:#fff;border:1px solid #fff}
+.final{text-align:center;margin-bottom:30px}
+footer{text-align:center;color:#737373;font-size:11px;padding:6px 18px 100px}
+.wa{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:8px;text-decoration:none;z-index:6}
+.wa span{background:#fff;color:#000;font-weight:700;font-size:13px;border-radius:99px;padding:8px 14px}
+.wa i{width:54px;height:54px;border-radius:50%;background:#25d366;display:grid;place-items:center;font-style:normal;font-size:26px;box-shadow:0 4px 14px #000a}
+</style>
+</head>
+<body>
+<div class="top">
+<div class="bar">FREE DELIVERY • PAY ON DELIVERY</div>
+<nav class="tabs" role="tablist">
+  <button class="tab" type="button" role="tab" data-view="product" aria-selected="true">PRODUCT</button>
+  <button class="tab" type="button" role="tab" data-view="order" aria-selected="false">ORDER</button>
+  <button class="tab" type="button" role="tab" data-view="faq" aria-selected="false">FAQ</button>
+</nav>
+</div>
+
+<main class="wrap">
+<div class="view on" id="v-product">
+
+  <section class="hero">
+    <div class="eyebrow">SPYCAM.NG</div>
+    <h1>See what happens <span>when you're not there.</span></h1>
+    <div class="badges"><b>Free delivery</b><b>Pay on delivery</b></div>
+    <!-- Replace with: <img src="YOUR-IMAGE-URL" alt="SpyCam"> -->
+    <div class="ph hero-ph">PHOTO: SpyCam product shot</div>
+  </section>
+
+  <section class="final" style="margin:22px 0 30px">
+    <a class="btn" href="#order" data-go="order">ORDER NOW</a>
+  </section>
+
+  <section>
+    <h2 class="t">See it</h2>
+    <div class="pics">
+      <!-- Replace each placeholder text with: <img src="YOUR-IMAGE-URL" alt="SpyCam"> -->
+      <div class="ph">PHOTO 1: SpyCam next to a key or coin (shows the size)</div>
+      <div class="ph">PHOTO 2: SpyCam placed on a shelf or table</div>
+      <div class="ph">PHOTO 3: Live view on the phone app</div>
+      <div class="ph">PHOTO 4: What's in the box</div>
+    </div>
+    <ul class="bul">
+      <li>Clear live video and audio</li>
+      <li>Phone alert when someone enters the room</li>
+      <li>Night vision for clear footage in the dark</li>
+      <li>Small and easy to hide</li>
+      <li>Rechargeable, no wires needed</li>
+      <li>Set it up yourself on your phone, no technician</li>
+      <li>Free setup guide with every order</li>
+      <li>Free delivery + Pay on delivery</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="t">Where to use it</h2>
+    <div class="uses">
+      <div>🏠<b>Your Home</b>Know what's happening when you're not around.</div>
+      <div>👶<b>Baby &amp; Family</b>Keep an eye on important moments.</div>
+      <div>🏬<b>Office &amp; Shop</b>Monitor your space when you step away.</div>
+      <div>🔐<b>Security</b>Capture important moments when they happen.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="t">How it works</h2>
+    <ol class="steps">
+      <li><div><b>Order arrives. You unbox it.</b>Small box, small camera.</div></li>
+      <li><div><b>Place it anywhere.</b>Shelf, bag, table. It blends in.</div></li>
+      <li><div><b>Connect to WiFi. Download the free app.</b>No technician. No wires.</div></li>
+      <li><div><b>Charge it.</b>Built-in battery, no messy cables.</div></li>
+      <li><div><b>Watch live from anywhere.</b>Get instant alerts on your phone.</div></li>
+    </ol>
+  </section>
+
+  <section class="final">
+    <a class="btn" href="#order" data-go="order">ORDER NOW</a>
+  </section>
+</div>
+
+<div class="view" id="v-order">
+  <section class="order" id="order">
+    <h2>Order now</h2>
+    <small>We'll contact you to confirm. You get the setup guide as soon as you order.</small>
+    <form id="f" novalidate>
+      <label class="l" for="n">Full name</label>
+      <input type="text" id="n" autocomplete="name" placeholder="Your name">
+
+      <label class="l" for="p">Phone number <span>(for calls and/or WhatsApp)</span></label>
+      <input type="tel" id="p" inputmode="tel" autocomplete="tel" placeholder="080...">
+
+      <label class="l" for="a">Delivery address</label>
+      <input type="text" id="a" autocomplete="street-address" placeholder="Street, area, city">
+
+      <div class="q">CHOOSE YOUR PACKAGE <em>(Free delivery + Pay on delivery) *</em></div>
+      <div class="opts" id="pk">
+        <label class="opt"><input type="radio" name="pkg" value="1 pc — ₦30,400"><div>1 pc — ₦30,400</div></label>
+        <label class="opt"><input type="radio" name="pkg" value="2 pcs — ₦47,400"><div>2 pcs — ₦47,400 <i>Save ₦13,100</i></div></label>
+        <label class="opt"><input type="radio" name="pkg" value="3 pcs — ₦65,400"><div>3 pcs — ₦65,400 <i>Save ₦23,800</i></div></label>
+        <label class="opt"><input type="radio" name="pkg" value="4 pcs — ₦83,400"><div>4 pcs — ₦83,400 <i>Save ₦35,200</i></div></label>
+        <label class="opt"><input type="radio" name="pkg" value="5 pcs — ₦101,400"><div>5 pcs — ₦101,400 <i>Save ₦45,600</i></div></label>
+        <label class="opt"><input type="radio" name="pkg" value="6 pcs — ₦119,400"><div>6 pcs — ₦119,400 <i>Save ₦57,000</i></div></label>
+      </div>
+
+      <div class="q">When would you like us to deliver your order? *</div>
+      <div class="opts two">
+        <label class="opt"><input type="radio" name="when" value="Today"><div>TODAY</div></label>
+        <label class="opt"><input type="radio" name="when" value="Tomorrow"><div>TOMORROW</div></label>
+      </div>
+
+      <div class="q">Will you be available to make payment upon delivery of your order? *</div>
+      <div class="opts two">
+        <label class="opt"><input type="radio" name="avail" value="Yes"><div>YES</div></label>
+        <label class="opt"><input type="radio" name="avail" value="No"><div>NO</div></label>
+      </div>
+
+      <div class="err" id="e">Please complete every field above.</div>
+      <button type="submit" id="b">ORDER NOW</button>
+    </form>
+    <p class="note">No payment now. Pay when it's in your hands.</p>
+  </section>
+</div>
+
+<div class="view" id="v-faq">
+  <section class="faq" style="padding-top:26px">
+    <h2 class="t">Questions? Answered.</h2>
+    <details><summary>Do I need a technician to set it up?</summary><p>No. Download the app, connect once, and you're done. You also get a setup guide as soon as you order.</p></details>
+    <details><summary>Can I watch from outside my home?</summary><p>Yes. Once it's connected, open the app on your phone and watch live from anywhere, at work, outside, or even in another country.</p></details>
+    <details><summary>Does it work without WiFi?</summary><p>Yes. With a memory card inserted, it records even without WiFi. WiFi is only needed to watch live on your phone.</p></details>
+    <details><summary>Does it record at night?</summary><p>Yes. Night vision switches on automatically when the room gets dark, so you still get clear footage.</p></details>
+    <details><summary>Are recordings saved?</summary><p>Yes. Insert a memory card and videos are stored on it, so you can go back and watch what happened while you were away.</p></details>
+    <details><summary>How do I power it?</summary><p>It's rechargeable with a USB cord, just like a phone. For longer use, you can plug it into a power bank or socket.</p></details>
+    <details><summary>Is it easy to spot?</summary><p>No. It's small and designed to blend into its surroundings.</p></details>
+    <details><summary>How does payment work?</summary><p>Delivery is free and you pay only when it arrives. Just make sure someone is available to pay on delivery.</p></details>
+  </section>
+
+  <section class="final">
+    <a class="btn" href="#order" data-go="order">ORDER NOW</a>
+  </section>
+</div>
+</main>
+
+<footer>© SpyCam.NG. For lawful security use only. Follow your local privacy laws.</footer>
+
+<a class="wa" id="wa" href="#" aria-label="Contact us on WhatsApp"><span>Contact us</span><i>💬</i></a>
+
+<script>
+/* ========= EDIT THIS ========= */
+var WHATSAPP  = "2349017062206";   // 09017062206 in international format
+var SHEET_URL = "";                // Google Apps Script web-app URL (see setup steps). Leave empty to skip saving.
+/* ============================= */
+var base = "https://wa.me/" + WHATSAPP + "?text=";
+var hi = base + encodeURIComponent("Hi, I am interested in the SpyCam.");
+document.getElementById("wa").href = hi;
+
+var tabs=document.querySelectorAll(".tab"),views={product:document.getElementById("v-product"),order:document.getElementById("v-order"),faq:document.getElementById("v-faq")};
+function show(v){
+  Object.keys(views).forEach(function(k){views[k].classList.toggle("on",k===v);});
+  tabs.forEach(function(t){t.setAttribute("aria-selected",t.dataset.view===v?"true":"false");});
+  window.scrollTo(0,0);
+}
+tabs.forEach(function(t){t.addEventListener("click",function(){show(t.dataset.view);});});
+document.querySelectorAll("[data-go]").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();show(a.dataset.go);});});
+var h=location.hash.replace("#","");if(views[h]){show(h);}
+
+function pick(name){var c=document.querySelector('input[name="'+name+'"]:checked');return c?c.value:"";}
+
+document.getElementById("f").addEventListener("submit", function (ev) {
+  ev.preventDefault();
+  var n = document.getElementById("n").value.trim(),
+      p = document.getElementById("p").value.trim(),
+      a = document.getElementById("a").value.trim(),
+      pkg = pick("pkg"), when = pick("when"), avail = pick("avail"),
+      err = document.getElementById("e"), btn = document.getElementById("b");
+  if (!n || !p || !a || !pkg || !when || !avail) { err.style.display = "block"; return; }
+  err.style.display = "none";
+  btn.disabled = true; btn.textContent = "SENDING...";
+
+  var msg = "New SpyCam.NG order\nName: " + n + "\nPhone: " + p + "\nAddress: " + a +
+            "\nPackage: " + pkg + "\nDeliver: " + when + "\nAvailable to pay on delivery: " + avail;
+  var go = function () { window.location.href = base + encodeURIComponent(msg); };
+
+  if (SHEET_URL) {
+    var body = new URLSearchParams({ name: n, phone: p, address: a, package: pkg, delivery: when, available: avail });
+    fetch(SHEET_URL, { method: "POST", mode: "no-cors", body: body }).then(go, go);
+  } else { go(); }
+});
+</script>
+</body>
+</html>
